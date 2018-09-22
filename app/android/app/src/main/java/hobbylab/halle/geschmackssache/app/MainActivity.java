@@ -12,5 +12,6 @@ public class MainActivity extends FlutterActivity {
     super.onCreate(savedInstanceState);
     Fabric.with(this, new Crashlytics());
     GeneratedPluginRegistrant.registerWith(this);
+    //throw new RuntimeException("This is a crash");
   }
 }

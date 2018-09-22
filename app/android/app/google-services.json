@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "824036031001",
+    "firebase_url": "https://geschmackssache-9a89b.firebaseio.com",
+    "project_id": "geschmackssache-9a89b",
+    "storage_bucket": "geschmackssache-9a89b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824036031001:android:f745026e3dd58ba5",
+        "android_client_info": {
+          "package_name": "hobbylab.halle.geschmackssache.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "824036031001-s0fed8avht48knjicjjrgu55muu8c6go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDpuJw820S9zXliYpZu9hgtY21ERpmaL_g"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
