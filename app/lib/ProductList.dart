@@ -19,22 +19,31 @@ List<String> categoryList = [
   "Obst/Gemüse",
 ];
 
+List<String> moodList = [
+  "nicht gekauft",
+  "glücklich",
+  "traurig",
+  "gestresst",
+  "allgemein gut",
+  "verliebt",
+  "krank",
+  "müde/abgespannt",
+];
+
 class Product {
   bool isExpanded;
   String category;
-  int mood; //Rating from 0-10
+  String mood;
   Product(this.isExpanded, this.category, this.mood);
 }
 
 class ProductsState extends State<Products> {
-  List<Product> _products = <Product>[Product(false, categoryList[0], 5)];
+  List<Product> _products = categoryList.map((category){
+    return new Product(false, category, moodList[0]);
+  }).toList();
 
-  void _addProduct() {
-    List<Product> newProducts = this._products;
-    newProducts.add(Product(false, categoryList[0], 5));
-    setState(() {
-      this._products = newProducts;
-    });
+  void _send(){
+
   }
 
   @override
@@ -70,13 +79,23 @@ class ProductsState extends State<Products> {
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          Text(product.mood.toString()),
-                          IconButton(
-                            icon: new Icon(Icons.delete),
-                            tooltip: 'Delete this item',
-                            onPressed: () { setState(() { }); },
-                          )
-
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: DropdownButton(
+                              items: moodList.map((mood) {
+                                return new DropdownMenuItem(
+                                  child: Text(mood),
+                                  value: mood,
+                                );
+                              }).toList(),
+                              onChanged: (newMood) {
+                                product.mood = newMood;
+                                setState(() {
+                                });
+                              },
+                              value: product.mood,
+                            ),
+                          ),
                         ],
                       )
                     ],
@@ -86,9 +105,9 @@ class ProductsState extends State<Products> {
             ),
             RaisedButton(
               color: Theme.of(context).primaryColor,
-              onPressed: _addProduct,
+              onPressed: this._send,
               child: Text(
-                "Produkt hinzufügen",
+                "Abschicken",
                 style: TextStyle(color: Colors.white),
               ),
             ),
