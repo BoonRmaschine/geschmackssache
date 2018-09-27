@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class Products extends StatefulWidget {
-  ProductsState createState() => ProductsState();
+class ProductSelection extends StatefulWidget {
+  ProductsSelectionState createState() => ProductsSelectionState();
 }
 
 List<String> categoryList = [
@@ -31,89 +31,59 @@ List<String> moodList = [
 ];
 
 class Product {
-  bool isExpanded;
+  bool state;
   String category;
-  String mood;
-  Product(this.isExpanded, this.category, this.mood);
+
+  Product(this.state, this.category);
 }
 
-class ProductsState extends State<Products> {
-  List<Product> _products = categoryList.map((category){
-    return new Product(false, category, moodList[0]);
+class Mood {
+  String mood;
+
+  Mood(this.mood);
+}
+
+class ProductsSelectionState extends State<ProductSelection> {
+  List<Product> _products = categoryList.map((category) {
+    return new Product(false, category);
   }).toList();
 
-  void _send(){
-
-  }
+  void _send() {}
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Sag uns, was du heute gekauft hast"),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
+        appBar: AppBar(
+          title: Text("Sag uns, was du heute gekauft hast"),
+        ),
+        body: Column(
           children: <Widget>[
-            ExpansionPanelList(
-              expansionCallback: (index, isExpanded) {
-                setState(() {
-                  this._products[index].isExpanded =
-                      !this._products[index].isExpanded;
-                });
-              },
-              children: _products.map((Product product) {
-                return new ExpansionPanel(
-                  headerBuilder: (context, isExpanded) {
-                    return Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.all(10.0),
-                          child: Text(product.category),
-                        ),
-                      ],
-                    );
-                  },
-                  isExpanded: product.isExpanded,
-                  body: Row(
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: EdgeInsets.all(10.0),
-                            child: DropdownButton(
-                              items: moodList.map((mood) {
-                                return new DropdownMenuItem(
-                                  child: Text(mood),
-                                  value: mood,
-                                );
-                              }).toList(),
-                              onChanged: (newMood) {
-                                product.mood = newMood;
-                                setState(() {
-                                });
-                              },
-                              value: product.mood,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                );
-              }).toList(),
+            Expanded(
+              child: ListView(
+                children: this._products.map((product) {
+                  return new CheckboxListTile(
+                    title: Text(product.category),
+                    value: product.state,
+                    onChanged: (bool value) {
+                      setState(() {
+                        product.state = value;
+                      });
+                    },
+                  );
+                }).toList(),
+              ),
             ),
-            RaisedButton(
-              color: Theme.of(context).primaryColor,
-              onPressed: this._send,
-              child: Text(
-                "Abschicken",
-                style: TextStyle(color: Colors.white),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: EdgeInsets.all(10.0),
+                child: RaisedButton(
+                  onPressed: null,
+                  child: Text("Weiter"),
+                ),
               ),
             ),
           ],
-        ),
-      ),
-    );
+        ));
   }
 }

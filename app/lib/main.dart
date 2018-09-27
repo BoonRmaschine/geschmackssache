@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         (){
                           Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => Products()) );
+                              MaterialPageRoute(builder: (context) => ProductSelection()) );
                         },
                         child: Text("Ja", style: TextStyle(color: Colors.white),),
                     ),
