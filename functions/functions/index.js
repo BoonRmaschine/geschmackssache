@@ -22,15 +22,17 @@ db.settings({
   timestampsInSnapshots: true
 });
 
-exports.addAnswer = functions.https.onRequest((request, response) => {
-  var data = request.query;
-  console.log("Data: ", data);
+exports.addSurvey = functions.https.onRequest((request, response) => {
+  var body = request.body;
+  console.log("Body: ", body);
+  console.log("products: ", body.products);
+  console.log("mood: ", body.mood);
   admin.firestore().collection('answers').add({
-      "productcategory": data.productcategory,
-      "mood": data.mood,
+      "products": body.products,
+      "mood": body.mood,
       "timestamp": Date().toString(),
   }).then(writeResult => {
-      response.send(writeResult, "\n", data);
+      response.send("OK");
       return;
   }).catch((error) => {
       response.send(error);

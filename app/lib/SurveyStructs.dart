@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 List<String> categoryList = [
   "Bier, Wein, Spirituosen",
   "Limonaden und andere zuckerhaltige Getränke",
@@ -29,6 +31,12 @@ class Product {
   String category;
 
   Product(this.state, this.category);
+
+  Map<String, dynamic> toJson() =>
+      {
+        'product': json.encode(this.category),
+        'state': json.encode(this.state),
+      };
 }
 
 class Mood {
@@ -43,4 +51,10 @@ class Survey{
   Mood mood;
 
   Survey({this.products, this.mood});
+
+  Map<String, dynamic> toJson() =>
+      {
+        'products': json.encode(this.products),
+        'mood': mood.feeling,
+      };
 }

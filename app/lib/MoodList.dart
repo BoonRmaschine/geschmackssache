@@ -1,6 +1,8 @@
 import 'SurveyStructs.dart';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class MoodSelection extends StatefulWidget {
   final Survey surveyState;
@@ -17,8 +19,23 @@ class MoodSelectionState extends State<MoodSelection> {
 
   String _selectedMood;
 
-  void _send() {
+  Future<bool> postSurvey(Survey survey) async {
+    final String url = 'https://us-central1-geschmackssache-9a89b.cloudfunctions.net/addSurvey?';
+    final String body = json.encode(survey);
+    final response = await http.post(url, body: body);
 
+    if (response.statusCode == 200) {
+      // If server returns an OK response, parse the JSON
+      return null;
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
+    }
+  }
+
+  void _send() {
+    widget.surveyState.mood = Mood(true, this._selectedMood);
+    postSurvey(widget.surveyState);
   }
 
   @override
