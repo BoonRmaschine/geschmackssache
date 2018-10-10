@@ -1,46 +1,10 @@
+import 'SurveyStructs.dart';
+import 'MoodList.dart';
+
 import 'package:flutter/material.dart';
 
 class ProductSelection extends StatefulWidget {
   ProductsSelectionState createState() => ProductsSelectionState();
-}
-
-List<String> categoryList = [
-  "Bier, Wein, Spirituosen",
-  "Limonaden und andere zuckerhaltige Getränke",
-  "Wasser und Säfte",
-  "Koffeinhaltige Getränke",
-  "Eisprodukte",
-  "Schokolade und Süßprodukte",
-  "Knabberein, wie Chips und Nüsse",
-  "Milchprodukte, wie Joghurt und Käse",
-  "Brot- und Backwaren",
-  "Fleisch/Wurst",
-  "Fertigmalzeiten",
-  "Obst/Gemüse",
-];
-
-List<String> moodList = [
-  "nicht gekauft",
-  "glücklich",
-  "traurig",
-  "gestresst",
-  "allgemein gut",
-  "verliebt",
-  "krank",
-  "müde/abgespannt",
-];
-
-class Product {
-  bool state;
-  String category;
-
-  Product(this.state, this.category);
-}
-
-class Mood {
-  String mood;
-
-  Mood(this.mood);
 }
 
 class ProductsSelectionState extends State<ProductSelection> {
@@ -48,37 +12,55 @@ class ProductsSelectionState extends State<ProductSelection> {
     return new Product(false, category);
   }).toList();
 
-  void _send() {}
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Sag uns, was du heute gekauft hast"),
+          title: Text(""),
         ),
         body: Column(
           children: <Widget>[
+            Align(
+              alignment: Alignment.center,
+              child: Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "Sag uns, was du heute gekauft hast.",
+                  style: TextStyle(fontSize: 18.0, fontStyle: FontStyle.normal),
+                ),
+              ),
+            ),
             Expanded(
-              child: ListView(
-                children: this._products.map((product) {
-                  return new CheckboxListTile(
-                    title: Text(product.category),
-                    value: product.state,
-                    onChanged: (bool value) {
-                      setState(() {
-                        product.state = value;
-                      });
-                    },
-                  );
-                }).toList(),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: ListView(
+                  children: this._products.map((product) {
+                    return new CheckboxListTile(
+                      title: Text(product.category),
+                      value: product.state,
+                      onChanged: (bool value) {
+                        setState(() {
+                          product.state = value;
+                        });
+                      },
+                    );
+                  }).toList(),
+                ),
               ),
             ),
             Align(
               alignment: Alignment.centerRight,
               child: Padding(
-                padding: EdgeInsets.all(10.0),
+                padding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 45.0),
                 child: RaisedButton(
-                  onPressed: null,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => MoodSelection(
+                                  surveyState: Survey(products: this._products),
+                                )));
+                  },
                   child: Text("Weiter"),
                 ),
               ),

@@ -45,7 +45,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -83,23 +82,22 @@ class _MyHomePageState extends State<MyHomePage> {
               'Hast du heute etwas gekauft?',
             ),
             Center(
-              child:
-              Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    FlatButton(onPressed:null, child: new Text("Nein")),
-                    RaisedButton(
-                        color: Theme.of(context).primaryColor,
-                        onPressed:
-                        (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => ProductSelection()) );
-                        },
-                        child: Text("Ja", style: TextStyle(color: Colors.white),),
-                    ),
-                  ]
-              ),
+              child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                FlatButton(onPressed: null, child: new Text("Nein")),
+                RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ProductSelection()));
+                  },
+                  child: Text(
+                    "Ja",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ]),
             ),
           ],
         ),

@@ -27,7 +27,7 @@ platform :android do
     crashlytics(
       api_token: "6d68f20a854ffdbb8f7a2e495dc0e8ff55868cff",
       build_secret: "d52dd85e06773bec7a4d0d02f1fe5e9f696572bb64e3eb67f8783f7b72ad6478",
-      apk_path: "../build/app/outputs/apk/release/app-release.apk"
+      apk_path: "../build/app/outputs/apk/release/app-release.apk",
     )
 
     # sh "your_script.sh"
