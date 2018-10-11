@@ -23,7 +23,7 @@ db.settings({
 });
 
 exports.addSurvey = functions.https.onRequest((request, response) => {
-  var body = request.body;
+  var body = JSON.parse(request.body);
   console.log("Body: ", body);
   console.log("products: ", body.products);
   console.log("mood: ", body.mood);
