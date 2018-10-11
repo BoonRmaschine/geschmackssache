@@ -53,6 +53,8 @@ class ProductsSelectionState extends State<ProductSelection> {
               child: Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 45.0),
                 child: RaisedButton(
+                  textTheme: ButtonTextTheme.accent,
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {
                     Navigator.push(
                         context,
@@ -61,7 +63,9 @@ class ProductsSelectionState extends State<ProductSelection> {
                                   surveyState: Survey(products: this._products),
                                 )));
                   },
-                  child: Text("Weiter"),
+                  child: Text(
+                    "Weiter",
+                  ),
                 ),
               ),
             ),

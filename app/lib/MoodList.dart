@@ -20,7 +20,8 @@ class MoodSelectionState extends State<MoodSelection> {
   String _selectedMood;
 
   Future<bool> postSurvey(Survey survey) async {
-    final String url = 'https://us-central1-geschmackssache-9a89b.cloudfunctions.net/addSurvey?';
+    final String url =
+        'https://us-central1-geschmackssache-9a89b.cloudfunctions.net/addSurvey?';
     final String body = json.encode(survey);
     final response = await http.post(url, body: body);
 
@@ -78,8 +79,12 @@ class MoodSelectionState extends State<MoodSelection> {
               child: Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 45.0),
                 child: RaisedButton(
+                  textTheme: ButtonTextTheme.accent,
+                  color: Theme.of(context).primaryColor,
                   onPressed: this._send,
-                  child: Text("Senden"),
+                  child: Text(
+                    "Senden",
+                  ),
                 ),
               ),
             ),

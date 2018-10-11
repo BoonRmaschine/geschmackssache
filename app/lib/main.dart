@@ -19,7 +19,8 @@ class MyApp extends StatelessWidget {
         // "hot reload" (press "r" in the console where you ran "flutter run",
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.blue,
+        accentColor: Colors.white,
       ),
       home: new MyHomePage(title: 'Geschmackssache'),
     );
@@ -85,6 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
                 FlatButton(onPressed: null, child: new Text("Nein")),
                 RaisedButton(
+                  textTheme: ButtonTextTheme.accent,
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     Navigator.push(
@@ -94,7 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   },
                   child: Text(
                     "Ja",
-                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ]),
