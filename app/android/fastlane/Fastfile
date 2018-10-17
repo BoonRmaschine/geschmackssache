@@ -23,7 +23,8 @@ platform :android do
 
   desc "Submit a new Beta Build to Crashlytics Beta"
   lane :beta do
-    gradle(task: "clean assembleRelease")
+    # gradle(task: "clean assembleRelease")
+    build()
     crashlytics(
       api_token: "6d68f20a854ffdbb8f7a2e495dc0e8ff55868cff",
       build_secret: "d52dd85e06773bec7a4d0d02f1fe5e9f696572bb64e3eb67f8783f7b72ad6478",
@@ -34,9 +35,15 @@ platform :android do
     # You can also use other beta testing services here
   end
 
-  desc "Deploy a new version to the Google Play"
-  lane :deploy do
-    gradle(task: "clean assembleRelease")
-    upload_to_play_store
+  desc "Increment build numer"
+  lane :build do
+    # Return the number of commits in current git branch
+    build_number = number_of_commits()
+    Dir.chdir "../.." do
+      sh("pwd")
+      sh("flutter", "packages", "get")
+      sh("flutter", "clean")
+      sh("flutter", "build", "apk", "--build-number=#{build_number}")
+    end
   end
 end
