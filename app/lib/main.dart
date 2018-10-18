@@ -1,5 +1,7 @@
 import 'ProductList.dart';
+import 'Details.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(new MyApp());
@@ -45,7 +47,29 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {@override
+
+  void checkForDetails() async {
+  // Get the shared preferences
+  final prefs = await SharedPreferences.getInstance();
+  //Read the user details
+  final uuid = prefs.getString('uuid') ?? "";
+  final gender = prefs.getString('gender') ?? "";
+  final age = prefs.getInt('age') ?? 0;
+  //Check if everything is available
+  if(uuid == '' || gender == '' || age == 0) {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Details()));
+  }
+}
+
+  void initState() {
+    this.checkForDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
