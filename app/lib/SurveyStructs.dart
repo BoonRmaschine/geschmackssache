@@ -34,10 +34,11 @@ class Product {
 
   Map<String, dynamic> toJson() =>
       {
-        'product': json.encode(this.category),
+        'product': this.category,
         'state': json.encode(this.state),
       };
 }
+
 
 class Mood {
   bool state;
@@ -49,11 +50,17 @@ class Mood {
 class Survey{
   List<Product> products;
   Mood mood;
+  String uuid;
+  String gender;
+  int age;
 
   Survey({this.products, this.mood});
 
   Map<String, dynamic> toJson() =>
       {
+        'uuid': this.uuid,
+        'gender': this.gender,
+        'age': json.encode(this.age),
         'products': json.encode(this.products),
         'mood': mood.feeling,
       };

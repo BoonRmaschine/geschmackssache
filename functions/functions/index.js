@@ -24,10 +24,15 @@ db.settings({
 
 exports.addSurvey = functions.https.onRequest((request, response) => {
   var body = JSON.parse(request.body);
-  console.log("Body: ", body);
+  console.log("uuid: ", body.uuid);
+  console.log("gender: ", body.gender);
+  console.log("age: ", body.age);
   console.log("products: ", body.products);
   console.log("mood: ", body.mood);
   admin.firestore().collection('answers').add({
+      "uuid": body.uuid,
+      "gender": body.gender,
+      "age": body.age,
       "products": body.products,
       "mood": body.mood,
       "timestamp": Date().toString(),

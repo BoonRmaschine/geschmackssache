@@ -1,6 +1,7 @@
 import 'ProductList.dart';
 import 'Details.dart';
 
+import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         // or press Run > Flutter Hot Reload in IntelliJ). Notice that the
         // counter didn't reset back to zero; the application is not restarted.
         primaryColor: Colors.blue,
-        accentColor: Colors.white,
+        textTheme: TextTheme(button: TextStyle(color: Colors.white)),
       ),
       home: new MyHomePage(title: 'Geschmackssache'),
     );
@@ -47,23 +48,20 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {@override
-
+class _MyHomePageState extends State<MyHomePage> {
   void checkForDetails() async {
-  // Get the shared preferences
-  final prefs = await SharedPreferences.getInstance();
-  //Read the user details
-  final uuid = prefs.getString('uuid') ?? "";
-  final gender = prefs.getString('gender') ?? "";
-  final age = prefs.getInt('age') ?? 0;
-  //Check if everything is available
-  if(uuid == '' || gender == '' || age == 0) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => Details()));
+    // Get the shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    //Read the user details
+    final uuid = prefs.getString('uuid') ?? "";
+    final gender = prefs.getString('gender') ?? "";
+    final age = prefs.getInt('age') ?? 0;
+    //Check if everything is available
+    if (uuid == '' || gender == '' || age == 0) {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => Details()));
+    }
   }
-}
 
   void initState() {
     this.checkForDetails();
@@ -103,14 +101,17 @@ class _MyHomePageState extends State<MyHomePage> {@override
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Hast du heute etwas gekauft?',
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                'Hast du heute etwas gekauft?',
+                style: TextStyle(fontSize: 18.0),
+              ),
             ),
             Center(
               child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                FlatButton(onPressed: null, child: new Text("Nein")),
+                FlatButton(onPressed: () => exit(0), child: new Text("Nein")),
                 RaisedButton(
-                  textTheme: ButtonTextTheme.accent,
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
                     Navigator.push(
@@ -118,10 +119,16 @@ class _MyHomePageState extends State<MyHomePage> {@override
                         MaterialPageRoute(
                             builder: (context) => ProductSelection()));
                   },
-                  child: Text(
-                    "Ja",
-                  ),
+                  child: Text("Ja", style: Theme.of(context).textTheme.button),
                 ),
+              ]),
+            ),
+            Center(
+              child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
+                FlatButton(
+                    onPressed: () => Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Details())),
+                    child: new Text("Details", style: TextStyle(fontSize: 10.0),)),
               ]),
             ),
           ],

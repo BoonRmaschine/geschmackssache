@@ -1,8 +1,10 @@
 import 'SurveyStructs.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
 
 class MoodSelection extends StatefulWidget {
   final Survey surveyState;
@@ -22,6 +24,10 @@ class MoodSelectionState extends State<MoodSelection> {
   Future<bool> postSurvey(Survey survey) async {
     final String url =
         'https://us-central1-geschmackssache-9a89b.cloudfunctions.net/addSurvey?';
+    final prefs = await SharedPreferences.getInstance();
+    survey.uuid = prefs.getString('uuid');
+    survey.gender = prefs.getString('gender');
+    survey.age = prefs.getInt('age');
     final String body = json.encode(survey);
     final response = await http.post(url, body: body);
 
@@ -79,11 +85,10 @@ class MoodSelectionState extends State<MoodSelection> {
               child: Padding(
                 padding: EdgeInsets.only(top: 10.0, bottom: 10.0, right: 45.0),
                 child: RaisedButton(
-                  textTheme: ButtonTextTheme.accent,
                   color: Theme.of(context).primaryColor,
                   onPressed: this._send,
                   child: Text(
-                    "Senden",
+                    "Senden", style: Theme.of(context).textTheme.button
                   ),
                 ),
               ),
