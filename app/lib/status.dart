@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 
-class StatusPage extends StatefulWidget{
-  @override
-  StatusPageState createState() => StatusPageState();
-}
-
-class StatusPageState extends State<StatusPage>{
-  @override
+class StatusPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).primaryColor,
       body: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text('Danke für deine Teilnahme!', style: TextStyle(fontSize: 22.0),)
+          Center(
+            child: Text('Danke für deine Teilnahme!\nBis morgen ;)',
+              style: TextStyle(fontSize: 22.0, color: Colors.white), textAlign: TextAlign.center,),)
         ],
       ),
     );

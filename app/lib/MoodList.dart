@@ -1,10 +1,10 @@
 import 'SurveyStructs.dart';
+import 'status.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:io';
 
 class MoodSelection extends StatefulWidget {
   final Survey surveyState;
@@ -131,6 +131,7 @@ class MoodSelectionState extends State<MoodSelection> {
                         setState(() {
                           this.progress = 0.0;
                         });
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => StatusPage()));
                         return true;
                       } else {
                         final snackBar = SnackBar(content: Text('Fehler beim senden der Umfrage (Fehler: $response)'));
