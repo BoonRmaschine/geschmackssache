@@ -29,6 +29,9 @@ dependencies:
   # UUID generator
   uuid: ^1.0.3
 
+  # Google Cloud messaging
+  firebase_messaging: ^2.0.2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

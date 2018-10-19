@@ -1,9 +1,12 @@
 import 'ProductList.dart';
 import 'Details.dart';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+
+FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 void main() => runApp(new MyApp());
 
@@ -63,8 +66,27 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  void firebaseCloudMessagingListeners() {
+    _firebaseMessaging.getToken().then((token){
+      print(token);
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
   void initState() {
     this.checkForDetails();
+    firebaseCloudMessagingListeners();
     super.initState();
   }
 
