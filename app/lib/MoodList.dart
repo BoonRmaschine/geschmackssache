@@ -80,6 +80,10 @@ class MoodSelectionState extends State<MoodSelection> {
                 ),
               ),
             ),
+            LinearProgressIndicator(
+              backgroundColor: Colors.white,
+              valueColor: Colors.white,
+            )
             Align(
               alignment: Alignment.centerRight,
               child: Padding(

@@ -1,6 +1,7 @@
+import 'main.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
-
 import 'package:flutter/material.dart';
 
 class Details extends StatefulWidget {
@@ -20,7 +21,12 @@ class DetailsState extends State<Details> {
     prefs.setString('uuid', this.uuid);
     prefs.setString('gender', this.gender);
     prefs.setInt('age', this.age);
-    Navigator.pop(context);
+    if(Navigator.canPop(context)){
+      Navigator.pop(context);
+    } else {
+      Navigator.pushReplacement(
+          context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Geschmackssache')));
+    }
   }
 
   @override
@@ -38,7 +44,7 @@ class DetailsState extends State<Details> {
   Widget build(context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Gib uns ein paar Details über dich'),
+          title: Text('Verrate uns ein paar Details über dich'),
         ),
         body: ListView(
           children: <Widget>[
@@ -146,7 +152,7 @@ class DetailsState extends State<Details> {
                           this.saveDetails();
                         }
                       },
-                      child: Text('Submit',
+                      child: Text('Speichern',
                           style: Theme.of(context).textTheme.button),
                     ),
                   ),
