@@ -16,7 +16,6 @@ List<String> categoryList = [
 ];
 
 List<String> moodList = [
-  "nicht gekauft",
   "glücklich",
   "traurig",
   "gestresst",

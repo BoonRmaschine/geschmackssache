@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
 
-class StatusPage extends StatelessWidget {
+class StatusNoPage extends StatelessWidget {
 
   final timeout = const Duration(seconds: 3);
   final ms = const Duration(milliseconds: 1);
@@ -19,7 +19,7 @@ class StatusPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: Text('Danke für deine Teilnahme!\nBis morgen ;)',
+            child: Text('Schade :(\nBis morgen!',
               style: TextStyle(fontSize: 22.0, color: Colors.white),
               textAlign: TextAlign.center,),)
         ],

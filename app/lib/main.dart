@@ -1,8 +1,8 @@
 import 'ProductList.dart';
 import 'Details.dart';
+import 'status_no.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
@@ -132,7 +132,12 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Center(
               child: Row(mainAxisSize: MainAxisSize.min, children: <Widget>[
-                FlatButton(onPressed: () => exit(0), child: new Text("Nein")),
+                FlatButton(onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => StatusNoPage()));
+                }, child: new Text("Nein")),
                 RaisedButton(
                   color: Theme.of(context).primaryColor,
                   onPressed: () {
