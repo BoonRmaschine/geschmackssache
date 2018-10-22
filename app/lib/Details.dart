@@ -21,22 +21,33 @@ class DetailsState extends State<Details> {
     prefs.setString('uuid', this.uuid);
     prefs.setString('gender', this.gender);
     prefs.setInt('age', this.age);
-    if(Navigator.canPop(context)){
+    if (Navigator.canPop(context)) {
       Navigator.pop(context);
     } else {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => MyHomePage(title: 'Geschmackssache')));
+          context,
+          MaterialPageRoute(
+              builder: (context) => MyHomePage(title: 'Geschmackssache')));
     }
+  }
+
+  bool loaded = false;
+  loadSettings() async {
+    if(!loaded){
+      print('Loading settings');
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        this.uuid = prefs.getString('uuid') ?? Uuid().v1();
+        this.gender = prefs.getString('gender') ?? "m";
+        this.age = prefs.getInt('age') ?? 0;
+      });
+      loaded = true;
+    }
+    return true;
   }
 
   @override
   void initState() {
-    SharedPreferences.getInstance().then((value) {
-      setState(() {
-        this.uuid = value.getString('uuid') ?? Uuid().v1();
-      });
-    });
-
     super.initState();
   }
 
@@ -78,31 +89,40 @@ class DetailsState extends State<Details> {
                           child: Text('Alter'),
                         ),
                       ),
-                      Expanded(
-                        flex: 4,
-                        child: Padding(
-                          padding: EdgeInsetsDirectional.only(
-                              start: 20.0, end: 40.0),
-                          child: TextFormField(
-                            initialValue: '18',
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Bitte verrate uns dein Alter.';
+                      FutureBuilder(
+                          future: this.loadSettings(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              if (snapshot.data != null) {
+                                return Expanded(
+                                  flex: 4,
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.only(
+                                        start: 20.0, end: 40.0),
+                                    child: TextFormField(
+                                      initialValue: this.age.toString(),
+                                      validator: (value) {
+                                        if (value.isEmpty) {
+                                          return 'Bitte verrate uns dein Alter.';
+                                        }
+                                        int age = int.tryParse(value) ?? -1;
+                                        if (age <= 0) {
+                                          return 'Bitte gib eine Zahl ein.';
+                                        }
+                                        if (age < 18 || 100 < age) {
+                                          return 'Teilnahme zwischen 18 und 99 Jahren.';
+                                        }
+                                        setState(() {
+                                          this.age = age;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                );
                               }
-                              int age = int.tryParse(value) ?? -1;
-                              if (age <= 0) {
-                                return 'Bitte gib eine Zahl ein.';
-                              }
-                              if (age < 18 || 100 < age) {
-                                return 'Teilnahme zwischen 18 und 99 Jahren.';
-                              }
-                              setState(() {
-                                this.age = age;
-                              });
-                            },
-                          ),
-                        ),
-                      ),
+                            }
+                            return Container();
+                          })
                     ],
                   ),
                   Row(
@@ -121,6 +141,7 @@ class DetailsState extends State<Details> {
                             value: 'm',
                             groupValue: this.gender,
                             onChanged: (value) {
+                              print('Setting M');
                               setState(() {
                                 this.gender = value;
                               });
@@ -133,6 +154,7 @@ class DetailsState extends State<Details> {
                             value: 'w',
                             groupValue: this.gender,
                             onChanged: (value) {
+                              print('Setting W');
                               setState(() {
                                 this.gender = value;
                               });
