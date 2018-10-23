@@ -42,5 +42,49 @@ exports.addSurvey = functions.https.onRequest((request, response) => {
   }).catch((error) => {
       response.send(error);
   });
+})
 
+exports.getSurvey = functions.https.onRequest((request, response) => {
+  console.log("Getting survey collection");
+  var result = {};
+  var index = 0;
+  admin.firestore().collection('answers').get().then(snapshot => {
+    snapshot.forEach(doc => {
+      var data = doc.data();
+      console.log(doc.id, '=>', data);
+      var elem = {
+        "uuid": data.uuid,
+        "gender": data.gender,
+        "age": data.age,
+        "mood": data.mood,
+        "timestamp": data.timestamp,
+      };
+      console.log('JSON.parse() ', Date().toString());
+      var products = JSON.parse(data.products);
+      console.log('DONE!!! JSON.parse() ', Date().toString());
+      // for (var x in products) {
+      //     console.log('x = ', x);
+      //     //elem[products[i].product] = products[i].state;
+      // }
+      for (i in products) {
+        console.log(products[i]);
+        // console.log(products[i].product);
+        // console.log(products[i].state);
+        elem[products[i].product] = products[i].state;
+        console.log(elem);
+      }
+      //console.log("elem = ", elem);
+      // var productsLength = Object.keys(products).length;
+      // console.log("product.length = ", productsLength);
+      // for (var i = 0; i < productsLength; i++) {
+      //   console.log("product = ", products[i]);
+      // }
+      result[index] = elem;
+      index++;
+    })
+    response.send(result);
+    return;
+  }).catch((error) => {
+      response.send(error);
+  });
 })
