@@ -1,5 +1,6 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+const Json2csvParser = require('json2csv').Parser;
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -45,13 +46,11 @@ exports.addSurvey = functions.https.onRequest((request, response) => {
 })
 
 exports.getSurvey = functions.https.onRequest((request, response) => {
-  console.log("Getting survey collection");
-  var result = {};
-  var index = 0;
+  console.log("Getting survey");
+  var result = [];
   admin.firestore().collection('answers').get().then(snapshot => {
     snapshot.forEach(doc => {
       var data = doc.data();
-      console.log(doc.id, '=>', data);
       var elem = {
         "uuid": data.uuid,
         "gender": data.gender,
@@ -59,30 +58,25 @@ exports.getSurvey = functions.https.onRequest((request, response) => {
         "mood": data.mood,
         "timestamp": data.timestamp,
       };
-      console.log('JSON.parse() ', Date().toString());
+      // We need to parse the nested JSON string here,
+      // because the app has a bug which can't be fixed that easy
       var products = JSON.parse(data.products);
-      console.log('DONE!!! JSON.parse() ', Date().toString());
-      // for (var x in products) {
-      //     console.log('x = ', x);
-      //     //elem[products[i].product] = products[i].state;
-      // }
       for (i in products) {
-        console.log(products[i]);
-        // console.log(products[i].product);
-        // console.log(products[i].state);
         elem[products[i].product] = products[i].state;
-        console.log(elem);
       }
-      //console.log("elem = ", elem);
-      // var productsLength = Object.keys(products).length;
-      // console.log("product.length = ", productsLength);
-      // for (var i = 0; i < productsLength; i++) {
-      //   console.log("product = ", products[i]);
-      // }
-      result[index] = elem;
-      index++;
+      result.push(elem);
     })
-    response.send(result);
+    // Collecting keys
+    var keys = [];
+    for (var key in result[0]) {
+      keys.push(key);
+    }
+    // Converting JSON to CSV
+    const json2csvParser = new Json2csvParser({ keys, delimiter: ';', eol: '</br>' });
+    const csv = json2csvParser.parse(result);
+
+    // Returning survey as CSV
+    response.send(csv);
     return;
   }).catch((error) => {
       response.send(error);
